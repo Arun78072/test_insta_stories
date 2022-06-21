@@ -5,10 +5,11 @@ import { HiArrowLeft } from 'react-icons/hi'
 import { RiCloseFill, RiCreativeCommonsSaLine } from 'react-icons/ri'
 import { FiPlus } from 'react-icons/fi'
 import { AiFillHeart } from 'react-icons/ai'
+import styled from "styled-components";
+import { profile } from "console";
 export default function InstaStories() {
     const [currentId, setCurrentId] = useState(0);
     const [curIndex, setCurIndex] = useState(0);
-
     const dataary = data[curIndex].item;
     function curindex() {
         const DataLenght = data.length - 1
@@ -34,11 +35,11 @@ export default function InstaStories() {
                         keyboardNavigation
                         defaultInterval={4000}
                         stories={dataary}
-                        isPaused = {false}
+                        isPaused={false}
                         onStoryEnd={(s, st) => {
                             // console.log('story ended', s, st);
                             setCurrentId(currentId => currentId + 1);
-                            
+
                         }}
                         onAllStoriesEnd={(s, st) => {
                             // console.log('all stories ended', s, st);
@@ -67,24 +68,26 @@ export default function InstaStories() {
                     <h2>Talent Spotlight</h2>
                     <div className='sidebar_btn'><button><FiPlus /> Add spotlight</button></div>
                     <h2>All Spotlights</h2>
-                    <div>
+                    <div className='profile_data'>
                         {data.map((i, index) => {
                             return (
-                                <button key={index} onClick={() => {
-                                    setCurIndex(index)
-                                }} className='storieBtn'>
-                                    <div className='StoriePerson'>
-                                        <img src={i.profile} alt={i.name} style={
-                                            i.visible
-                                                ? { outline: '2px solid #0070f4' }
-                                                : { outline: 'none' }
-                                        } />
-                                        <div>
-                                            <h4>{i.name}</h4>
-                                            <p>{i.time} hour ago</p>
+                                <ButtonDiv key={index} active={index===curIndex}>
+                                    <button  onClick={() => {
+                                        setCurIndex(index)
+                                    }} className='storieBtn'>
+                                        <div className='StoriePerson'>
+                                            <img src={i.profile} alt={i.name} style={
+                                                i.visible
+                                                    ? { outline: '2px solid #0070f4' }
+                                                    : { outline: 'none' }
+                                            } />
+                                            <div>
+                                                <h4>{i.name}</h4>
+                                                <p>{i.time} hour ago</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </button>
+                                    </button>
+                                </ButtonDiv>
                             )
                         })}
                     </div>
@@ -93,9 +96,6 @@ export default function InstaStories() {
         </>
     )
 }
-
-
-
 export const data = [
     {
         id: 1,
@@ -234,3 +234,10 @@ export const data = [
 function SeeMore() {
     return <div>see more</div>;
 }
+
+const ButtonDiv = styled.div`
+    /* background: red; */
+    background:${p=>p.active ? '#F2F2F2' : ' '}
+     
+    
+`
