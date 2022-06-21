@@ -1,16 +1,14 @@
 import Stories, { WithSeeMore } from "react-insta-stories";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiArrowRight } from 'react-icons/hi'
 import { HiArrowLeft } from 'react-icons/hi'
-import { RiCloseFill } from 'react-icons/ri'
+import { RiCloseFill, RiCreativeCommonsSaLine } from 'react-icons/ri'
 import { FiPlus } from 'react-icons/fi'
 import { AiFillHeart } from 'react-icons/ai'
-
-
-
 export default function InstaStories() {
     const [currentId, setCurrentId] = useState(0);
     const [curIndex, setCurIndex] = useState(0);
+
     const dataary = data[curIndex].item;
     function curindex() {
         const DataLenght = data.length - 1
@@ -34,30 +32,33 @@ export default function InstaStories() {
                         currentIndex={currentId}
                         loop
                         keyboardNavigation
-                        defaultInterval={3000}
+                        defaultInterval={4000}
                         stories={dataary}
+                        isPaused = {false}
                         onStoryEnd={(s, st) => {
                             // console.log('story ended', s, st);
                             setCurrentId(currentId => currentId + 1);
+                            
                         }}
                         onAllStoriesEnd={(s, st) => {
                             // console.log('all stories ended', s, st);
                             setCurrentId(currentId => 0);
                             curindex()
+                            data[curIndex].visible = false;
                         }}
                         onStoryStart={(s, st) => {
                             // console.log('story started', s, st);
                             setCurIndex(currentId => (currentId + 1) - 1);
                         }}
                     />
-                    <div className="reaction_icon">
+                    {/* <div className="reaction_icon">
                         <AiFillHeart />
                         <AiFillHeart />
                         <AiFillHeart />
                         <AiFillHeart />
                         <AiFillHeart />
                         <AiFillHeart />
-                    </div>
+                    </div> */}
                     <div className='right icon' onClick={() => {
                         curindex()
                     }}><HiArrowRight /></div>
@@ -73,7 +74,11 @@ export default function InstaStories() {
                                     setCurIndex(index)
                                 }} className='storieBtn'>
                                     <div className='StoriePerson'>
-                                        <img src={i.profile} alt={i.name} />
+                                        <img src={i.profile} alt={i.name} style={
+                                            i.visible
+                                                ? { outline: '2px solid #0070f4' }
+                                                : { outline: 'none' }
+                                        } />
                                         <div>
                                             <h4>{i.name}</h4>
                                             <p>{i.time} hour ago</p>
